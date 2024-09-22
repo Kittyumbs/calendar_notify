@@ -1,1 +1,28 @@
+name: Google Calendar to Line Notify
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Chạy mỗi giờ (bạn có thể chỉnh lại theo ý muốn)
+  workflow_dispatch:  # Cho phép chạy thủ công từ GitHub
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib requests
+
+    - name: Run script to notify via Line
+      run: python calendar_notify.py
 
